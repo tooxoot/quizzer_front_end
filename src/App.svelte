@@ -1,12 +1,26 @@
 <script lang="ts">
-	import {state} from './state'
+  import { client } from './client'
+  import Login from './Login.svelte'
+  import Question from './Question.svelte'
 </script>
 
 <main>
-	{#each $state.questions as question (question.id)}
-		<div>{question.answers}</div>
-	{/each}
+  {#if !$client.isOpen && !$client.isConnecting}
+    <Login />
+  {:else if !$client.isOpen && $client.isConnecting}
+    LOADING
+  {:else}
+    <Question />
+  {/if}
 </main>
 
 <style>
+  main {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    padding: 1%;
+  }
 </style>
