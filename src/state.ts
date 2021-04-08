@@ -16,10 +16,8 @@ const init = () => {
       questions: new Array(5).fill(0).map(testQuestion),
     },
     currentQuestionIdx: 0,
-    givenAnswers: {
-      Q0: 1,
-    },
     leaderBoard: {},
+    lockQuestion: false,
     showLeaderBoard: false,
     showRightAnswers: false,
     timestamp: 0,

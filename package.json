@@ -24,7 +24,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@tooxoot/quizzer-protocol": "^1.0.3",
+    "@tooxoot/quizzer-protocol": "^1.0.4",
     "sirv-cli": "^1.0.0"
   }
 }

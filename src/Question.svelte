@@ -8,14 +8,13 @@
   $: current = $state.catalogue.questions[$state.currentQuestionIdx]
 
   let givenAnswer: number
-  $: givenAnswer = $state.givenAnswers[current.id]
-
-  let rightAnswer: number
-  $: rightAnswer = current.rightAnswer
+  $: givenAnswer = $state.leaderBoard[$client.username]?.givenAnswers[current.id]
 
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(char => char + ':')
 
   const sendAnswer = (idx: number) => () => {
+    if ($state.lockQuestion) return
+
     client.send({
       type: QP.GuestClient.Message.TYPES.SUBMIT_ANSWER,
       answer: idx,
@@ -30,8 +29,11 @@
     <button class:given={idx === givenAnswer} class="answer" on:click={sendAnswer(idx)}>
       <div class="letter">{letters[idx]}</div>
       <div class="text">{answer}</div>
-      {#if $state.showRightAnswers}
-        <AnswerIndicator correct={idx === givenAnswer} />
+      {#if $state.lockQuestion}
+        <div>🔒</div>
+      {/if}
+      {#if $client.isHost || $state.showRightAnswers}
+        <AnswerIndicator correct={idx === current.rightAnswer} />
       {/if}
     </button>
   {/each}
@@ -59,7 +61,7 @@
     border: 1px solid black;
     padding: 10px;
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto;
     gap: 20px;
     margin: 0;
   }
